@@ -19,9 +19,12 @@ void clearInputBuffer() {
         int i,S_No=0;
         ptr=fopen("products.txt","r");
         struct products p;
-        while( fread(&p,sizeof(struct products),1,ptr)){
-              S_No=p.s_no;
-        }
+        fseek(ptr,0,SEEK_END);
+        int rec=sizeof(struct products);
+        fseek(ptr,-rec,SEEK_CUR);
+        p.s_no=0;
+        fread(&p,sizeof(struct products),1,ptr);
+        S_No=p.s_no;
         fclose(ptr);
         ptr=fopen("products.txt","a");
         struct products ap[size];
@@ -72,7 +75,7 @@ void clearInputBuffer() {
          int a=0;
           ptr=fopen("products.txt","r");
            struct products ap;
-           printf("  S.No\t    Name\t Price\tDiscount  Final price\tstock\n");
+           printf("  S.No\t     Name\tPrice\tDiscount  Final price\tstock\n");
           while( fread(&ap,sizeof(struct products),1,ptr)){
            if( category==ap.cat){
                a=1;
@@ -166,7 +169,7 @@ void clearInputBuffer() {
          printf("Your Choice : ");
          scanf("%d",&ch);
          if(ch<=6 && ch>=1){
-            printf("Enter the name of category from below\n");
+            printf("Enter name of the category from below\n");
             printf("1 ->Dairy\n");
             printf("2 ->Grains_and_cooking_products\n");
             printf("3 ->Snacks\n");
